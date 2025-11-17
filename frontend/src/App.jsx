@@ -5,16 +5,16 @@ import {
   RouterProvider,
   Route,
 } from "react-router";
+import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import Doctors from "./pages/Doctors";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import NavBar from "./pages/components/NavBar";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<NavBar />}>
+      <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="doctors" element={<Doctors />} />

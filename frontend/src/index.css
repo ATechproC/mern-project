@@ -20,6 +20,38 @@
     }
 }
 
+@layer components {
+
+    .open {
+        animation: animation-in 2s ease forwards;
+    }
+
+    .close {
+        animation: animation-out 2s ease forwards;
+    }
+
+    @keyframes animation-in {
+        0% {
+            right: 100%;
+        }
+
+        100% {
+            right: 0;
+        }
+    }
+
+    @keyframes animation-out {
+        0% {
+            right: 100%;
+        }
+
+        100% {
+            right: 0;
+        }
+    }
+
+}
+
 @layer utilities {
     .flex-center {
         @apply flex items-center justify-center

@@ -1,5 +1,5 @@
 import React from 'react'
-import ShapeSection from '../../utils/ShapeSection'
+import ShapeSection from '../utils/ShapeSection'
 
 const CreateAccount = () => {
     return <ShapeSection
