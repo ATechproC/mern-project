@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { assets } from '../assets/assets_frontend/assets';
 import { Link } from 'react-router';
 import { IoIosArrowDown } from 'react-icons/io';
+import { useNavigate } from 'react-router';
 
 const NavBar = () => {
+
+    const navigate = useNavigate();
+
     const links = [
         {
             "id": 1,
@@ -71,7 +75,11 @@ const NavBar = () => {
                         key={id} to={to}>{pageName}</Link>
                 })
             }
-            <button className="border-gray-400 border-[1px] text-sm rounded-2xl py-[2px] px-[10px]">Admin panel</button>
+            <button
+                onClick={() => {
+                    navigate("/admin")
+                }}
+                className="border-gray-400 border-[1px] text-sm rounded-2xl py-[2px] px-[10px]">Admin panel</button>
         </ul>
         <div className="h-full gap-3 pb-3 flex-items"
             onMouseEnter={() => whileMouseHovered("enter")}
@@ -86,6 +94,7 @@ const NavBar = () => {
             </div>
             <IoIosArrowDown className="cursor-pointer" />
         </div>
+        {/* <button className='px-4 py-1 text-white bg-main-color rounded-[10px] font-semibold'>Create Account</button> */}
         <div
             style={{ display: isHovered ? "block" : "none" }}
             onMouseEnter={() => whileMouseHovered("enter")}

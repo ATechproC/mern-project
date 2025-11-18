@@ -68,4 +68,12 @@
     .flex-column {
         @apply flex flex-col
     }
+
+    .center-element-absolute {
+        @apply absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]
+    }
+
+    .input-style { 
+        @apply px-2 py-1 border-[2px] border-gray-500 rounded-[10px];
+    }
 }
