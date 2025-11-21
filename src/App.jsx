@@ -14,13 +14,15 @@ import AdminForm from "./components/AdminForm";
 import DoctorForm from "./components/DoctorForm";
 import Appointment from "./pages/Appointment";
 import NotFound from "./components/NotFound";
-import Doctor from "./components/Doctor";
+// import Doctor from "./components/Doctor";
 import MyProfile from "./components/MyProfile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Appointments from "./components/Appointments";
 import AdminPaned1 from "./pages/Admin/AdminPaned1";
 import AdminPanel2 from "./pages/Admin/AdminPanel2";
+import ChangeSpecialityProvider from "./providers/ChangeSpecialityProvider";
+// import ChangeSpecialityProvider from "./providers/ChangeSpecialityProvider";
 
 const App = () => {
 
@@ -30,11 +32,11 @@ const App = () => {
         <Route path="/" element={<Navigation />}>
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
+          <Route path="doctors/:specialty" element={<Doctors />} />
           <Route path="doctors" element={<Doctors />} />
-          <Route path="doctors/:id" element={<Doctor />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="appointments/:id" element={<Appointment />} />
+          <Route path="appointments/:doctorId" element={<Appointment />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="/admin1" element={<AdminPaned1 />} />
           <Route path="/admin2" element={<AdminPanel2 />} />
@@ -51,7 +53,9 @@ const App = () => {
 
   return (
     <div className="w-[80%] m-auto mt-[10px] overflow-hidden">
-      <RouterProvider router={router} />
+      <ChangeSpecialityProvider>
+        <RouterProvider router={router} />
+      </ChangeSpecialityProvider>
     </div>
   )
 }
