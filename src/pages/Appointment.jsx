@@ -54,7 +54,7 @@ const Appointment = () => {
                     <p>{doctorInfo.fees}</p>
                 </div>
             </div>
-            <BookingSlots />
+            <BookingSlots doctorInfo={doctorInfo} />
             <div className='py-10'>
                 <SectionHeader
                     title="Related Doctors"

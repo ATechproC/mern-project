@@ -14,8 +14,6 @@ const Doctors = () => {
 
   setSpeciality(specialty);
 
-  console.log("specialty ", specialty)
-
   return <>
     <div className='flex gap-5 py-5 flex-column md:flex-row'>
       <div className='gap-3 flex-column'>

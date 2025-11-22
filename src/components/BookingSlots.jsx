@@ -1,68 +1,132 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
-const BookingSlots = () => {
+const BookingSlots = ({ doctorInfo }) => {
+
+    const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+    const [timeSlotIndex, setTimeSlotIndex] = useState(0);
 
     const [docSlots, setDocSlots] = useState([]);
-    const [slotIndex, setSlotIndex] = useState(0);
-    const [slotTime, setSlotTime] = useState("");
 
-    const getAvailbeSlots = () => {
+    const getAvailbleSlots = () => {
 
-        // setDocSlots([]);
+        const allSlots = [];
 
         const today = new Date();
-
-        // getting current date :
         for (let i = 0; i < 7; i++) {
 
-            setDocSlots([]);
-
-            // getting date with index : 
             const currentDate = new Date(today);
             currentDate.setDate(today.getDate() + i);
-            // console.log(currentDate); 
 
-            // setting nd time of te date with index :
-
-            let endTime = new Date();
-            endTime.setDate(today.getDate() + i);
+            const startTime = new Date(currentDate);
+            const endTime = new Date(currentDate);
             endTime.setHours(21, 0, 0, 0);
 
-            // setting Houres : 
+            const isToday = today.toDateString() === currentDate.toDateString();
 
-            if (today.getDate() === currentDate.getDate()) {
-                currentDate.setHours((currentDate.getHours() > 10) ? currentDate.setHours() + 1 : 10);
-                currentDate.setMinutes(currentDate.setMinutes() > 30 ? 0 : 30);
-            } else {
-                currentDate.setMinutes(0);
-                currentDate.setHours(10);
-            }
+            if (isToday) {
 
-            let timeSlots = [];
-            while (currentDate > today) {
-                const formatedTime = currentDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                const now = new Date();
+                startTime.setHours(now.getHours());
+                startTime.setMinutes(now.getMinutes() >= 30 ? 60 : 30);
+
+                if (startTime > endTime) continue;
+
+            } else startTime.setHours(10, 0, 0, 0);
+
+
+            const timeSlots = [];
+            const currentSlot = new Date(startTime);
+
+            while (currentSlot < endTime) {
 
                 timeSlots.push({
-                    dateTime : new Date(currentDate),
-                    time : formatedTime
+                    id: timeSlots.length + 1,
+                    time: currentSlot.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                    isSelectd: false
+                })
+
+                currentSlot.setMinutes(currentSlot.getMinutes() + 30);
+            }
+
+
+            if (timeSlots.length > 0) {
+                allSlots.push({
+                    id: allSlots.length + 1,
+                    date: currentSlot.getDate(),
+                    day: currentSlot.getDay(),
+                    slot: timeSlots,
+                    isSelected: false
                 });
             }
 
-            setDocSlots(prev => [...prev, timeSlots]);
-
         }
 
-        console.log(docSlots)
-
+        setDocSlots(allSlots);
     }
 
     useEffect(() => {
-        getAvailbeSlots();
-    }, []);
+        getAvailbleSlots();
+    }, [doctorInfo]);
 
-    return (
-        <div>BookingSlots</div>
-    )
+    const handleClickSlots = (id) => {
+
+        const newDocSlots = [...docSlots];;
+
+        for (let i = 0; i < newDocSlots.length; i++) {
+
+            if (i == id - 1) {
+                newDocSlots[i].isSelected = !newDocSlots[i].isSelected;
+            } else {
+                newDocSlots[i].isSelected = false;
+            }
+        }
+
+        setDocSlots(newDocSlots);
+        setTimeSlotIndex(id - 1);
+    };
+
+    const handleClickedTime = (timeSlotIndex, id) => {
+        const newDocSlots = [...docSlots];
+
+        for (let i = 0; i < newDocSlots[timeSlotIndex].slot.length; i++) {
+            if (id - 1 == i) {
+                newDocSlots[timeSlotIndex].slot[i].isSelectd = !newDocSlots[timeSlotIndex].slot[i].isSelectd;
+            } else newDocSlots[timeSlotIndex].slot[i].isSelectd = false;
+        }
+
+        setDocSlots(newDocSlots);
+    }
+
+
+    return docSlots.length > 0 &&
+        <div className='pt-8'>
+            <p className='text-lg text-gray-600 pb-5'>Booking slots</p>
+            <div>
+                <div className='flex-items gap-5 whitespace-nowrap cursor-pointer'>
+                    {
+                        docSlots.map(({ day, date, isSelected, id }) => {
+                            return <div key={id}
+                                onClick={() => handleClickSlots(id)}
+                                className={`flex-column gap-2 px-3 py-4 border border-gray-400 rounded-[30px] text-center ${isSelected ? "text-white font-bold bg-blue-700" : null}`}>
+                                <p>{daysOfWeek[day]}</p>
+                                <p>{date}</p>
+                            </div>
+                        })
+                    }
+                </div>
+                <div className='flex-items pt-8 gap-2 p-2 font-medium rounded-[10px] whitespace-nowrap overflow-auto '>
+                    {
+                        docSlots[timeSlotIndex].slot.map(({ time, isSelectd, id }) => {
+                            return <div key={id}
+                                onClick={() => handleClickedTime(timeSlotIndex, id)}
+                                className={`border border-gray-500 px-2 rounded-full cursor-pointer ${isSelectd ? "text-white font-bold bg-blue-700" : null}`}
+                            > {time} </div>
+                        })
+                    }
+                </div>
+            </div>
+        </div>
 }
 
 export default BookingSlots
