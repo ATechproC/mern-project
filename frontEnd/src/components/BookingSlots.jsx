@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 const BookingSlots = ({ doctorInfo }) => {
 
-    const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
     const [timeSlotIndex, setTimeSlotIndex] = useState(0);
 
