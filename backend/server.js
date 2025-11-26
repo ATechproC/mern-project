@@ -18,13 +18,21 @@ app.use(express.json());
 
 // set up routes :
 
-//  Doctor Routes : 
+    //  Doctor Routes : 
+    const doctorRoutes = require("./api/doctorRoutes");
+    app.use("/api/v1/doctors", doctorRoutes);
+    
+    // User Routes : 
+    const userRoutes = require("./api/userRoutes");
+    app.use("/api/v1/users", userRoutes);
 
-const doctorRoutes = require("./api/doctorRoutes");
-app.use("/api/v1/doctors", doctorRoutes);
-app.all(/.*/, (req, res, next) => {
-    next(new ApiError(`Can't find this route : ${req.originalUrl}`, 404));
-})
+    // admin Routes :
+    const adminRoutes = require("./api/adminRoutes");
+    app.use("/api/v1/admin", adminRoutes);
+    
+    app.all(/.*/, (req, res, next) => {
+        next(new ApiError(`Can't find this route : ${req.originalUrl}`, 404));
+    })
 
 // Global handling errors inside express : 
 

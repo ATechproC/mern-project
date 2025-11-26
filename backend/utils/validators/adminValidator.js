@@ -1,13 +1,13 @@
 const { check } = require("express-validator");
 const { validatorMiddleware } = require("../../middlewares/validatorMiddleware");
-const Doctor = require("../../models/doctorModel");
+const Admin = require("../../models/adminModel");
 const bcrypt = require("bcryptjs");
 
-exports.get_doctor_by_id_validator = [
+exports.get_admin_by_id_validator = [
 
     check("id")
         .notEmpty()
-        .withMessage("Doctor id is required")
+        .withMessage("admin id is required")
         .bail()
         .isMongoId()
         .withMessage("Invalid id foramt"),
@@ -15,16 +15,16 @@ exports.get_doctor_by_id_validator = [
     validatorMiddleware
 ]
 
-exports.add_new_doctor_validator = [
+exports.add_new_admin_validator = [
     check("name")
         .notEmpty()
-        .withMessage("Doctor name is required")
+        .withMessage("admin name is required")
         .bail()
         .isLength({ min: 3 })
-        .withMessage("Too short Doctor name")
+        .withMessage("Too short admin name")
         .bail()
         .isLength({ max: 100 })
-        .withMessage("Too long doctor name"),
+        .withMessage("Too long admin name"),
 
     check("email")
         .notEmpty()
@@ -35,8 +35,8 @@ exports.add_new_doctor_validator = [
         .bail()
         .custom(async email => {
 
-            const doctor = await Doctor.findOne({ email });
-            if (doctor) {
+            const admin = await Admin.findOne({ email });
+            if (admin) {
                 throw new Error("This email is already exist!!");
             }
 
@@ -68,94 +68,60 @@ exports.add_new_doctor_validator = [
             return true;
 
         }),
-
-    check("speciality")
-        .notEmpty()
-        .withMessage("Doctor speciality is required"),
-    check("experience")
-        .notEmpty()
-        .withMessage("Doctor experience is required"),
-    check("about")
-        .notEmpty()
-        .withMessage("Doctor about is required"),
-    check("fees")
-        .notEmpty()
-        .withMessage("Doctor fees is required"),
     check("address")
         .notEmpty()
-        .withMessage("Doctor address is required"),
-    check("date")
-        .notEmpty()
-        .withMessage("Doctor date is required"),
+        .withMessage("admin address is required"),
+    // check("date")
+    //     .notEmpty()
+    //     .withMessage("admin date is required"),
     check("address")
         .notEmpty()
-        .withMessage("Doctor address is required"),
-    check("image")
-        .isURL().withMessage("Invalid image URL")
-
+        .withMessage("admin address is required")
 
     , validatorMiddleware
 ]
 
-exports.update_doctor_data_validator = [
+exports.update_admin_data_validator = [
     check("name")
         .notEmpty()
-        .withMessage("Doctor name is required")
+        .withMessage("admin name is required")
         .bail()
         .isLength({ min: 3 })
-        .withMessage("Too short Doctor name")
+        .withMessage("Too short admin name")
         .bail()
         .isLength({ max: 100 })
-        .withMessage("Too long doctor name"),
+        .withMessage("Too long admin name"),
 
-    check("email")
-        .notEmpty()
-        .withMessage("email is required")
-        .bail()
-        .isEmail()
-        .withMessage("Invalid email format")
-        .bail()
-        .custom(async email => {
-            const doctor = await Doctor.findOne({ email });
+    // check("email")
+    //     .notEmpty()
+    //     .withMessage("email is required")
+    //     .bail()
+    //     .isEmail()
+    //     .withMessage("Invalid email format")
+    //     .bail()
+    //     .custom(async email => {
+    //         const admin = await Admin.findOne({ email });
 
-            if (!doctor) {
-                throw new Error("This email is already exists!!");
-            }
+    //         if (!admin) {
+    //             throw new Error("This email is already exists!!");
+    //         }
 
-            return true;
+    //         return true;
 
-        }),
+    //     }),
 
-    check("speciality")
-        .notEmpty()
-        .withMessage("Doctor speciality is required"),
-    check("experience")
-        .notEmpty()
-        .withMessage("Doctor experience is required"),
-    check("about")
-        .notEmpty()
-        .withMessage("Doctor about is required"),
-    check("fees")
-        .notEmpty()
-        .withMessage("Doctor fees is required"),
-    check("address")
-        .notEmpty()
-        .withMessage("Doctor address is required"),
-    check("date")
-        .notEmpty()
-        .withMessage("Doctor date is required"),
-    check("address")
-        .notEmpty()
-        .withMessage("Doctor address is required"),
+    // check("address")
+    //     .notEmpty()
+    //     .withMessage("admin address is required"),
 
     validatorMiddleware
 ]
 
-exports.delete_doctor_data_validator = [
+exports.delete_admin_data_validator = [
 
     check("id")
         .notEmpty()
-        .withMessage("Doctor id is required")
+        .withMessage("admin id is required")
         .bail()
         .isMongoId()
         .withMessage("Invalid id foramt"),
@@ -163,10 +129,10 @@ exports.delete_doctor_data_validator = [
     validatorMiddleware
 ]
 
-exports.change_doctor_password_validator = [
+exports.change_admin_password_validator = [
     check("id")
         .notEmpty()
-        .withMessage("Doctor is required")
+        .withMessage("admin is required")
         .isMongoId()
         .withMessage("Invalid Id format"),
     check("newPassord").notEmpty().withMessage("new Password is required"),
@@ -179,9 +145,9 @@ exports.change_doctor_password_validator = [
             if (!req.body.newPassword) return true;
 
             const { id } = req.params;
-            const doctor = await Doctor.findById(id);
+            const admin = await Admin.findById(id);
 
-            const isCurrentPassword = await bcrypt.compare(currentPassword, doctor.password);
+            const isCurrentPassword = await bcrypt.compare(currentPassword, admin.password);
 
             if (!isCurrentPassword) {
                 throw new Error("Invalid current password!!");

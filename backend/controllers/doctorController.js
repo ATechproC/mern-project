@@ -3,6 +3,7 @@ const { default: slugify } = require("slugify");
 const Doctor = require("../models/doctorModel");
 const ApiError = require("../utils/ApiError");
 const bcrypt = require("bcryptjs");
+const { pagination } = require("../utils/pagination");
 
 exports.add_new_doctor = async_handler(async (req, res) => {
 
@@ -14,8 +15,18 @@ exports.add_new_doctor = async_handler(async (req, res) => {
 });
 
 exports.get_all_doctors = async_handler(async (req, res) => {
-    const doctors = await Doctor.find();
-    res.status(200).json({ data: doctors });
+
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const skip = (page - 1) * limit;
+
+    const doctors = await Doctor.find().skip(skip).limit(limit);
+
+    const numberOfDocument = await Doctor.countDocuments();
+
+    const paginationResult = pagination( page, numberOfDocument, limit, skip);
+
+    res.status(200).json({ result : doctors.length, pagination: paginationResult, data: doctors });
 });
 
 exports.get_doctor_by_id = async_handler(async (req, res, next) => {
@@ -44,7 +55,7 @@ exports.update_doctor_data = async_handler(async (req, res, next) => {
         available: req.body.available,
         fees: req.body.fees,
         address: req.body.address,
-        date: req.body.date,
+        // date: req.body.date,
         slots_booked: req.body.slots_booked
     }, { new: true })
 
@@ -60,14 +71,14 @@ exports.change_doctor_password = async_handler(async (req, res, next) => {
     const { id } = req.params;
 
     const doctor = await Doctor.findOneAndUpdate(id, {
-        password : await bcrypt.hash(req.password, 12)
-    }, {new : true});
+        password: await bcrypt.hash(req.password, 12)
+    }, { new: true });
 
-    if(!doctor) {
+    if (!doctor) {
         return next(new ApiError("There is no doctor for this id", 404));
     }
 
-    res.status(200).json({data : doctor});
+    res.status(200).json({ data: doctor });
 
 })
 

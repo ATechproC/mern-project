@@ -21,7 +21,9 @@ const doctorSchema = new mongoose.Schema({
         minlength: [8, "Too short password"],
         maxlength: [32, "Too long password"]
     },
-    image: String,
+    image: {
+        type : String
+    },
     speciality: {
         type: String,
         required: [true, "Doctor speciality is required"]
@@ -50,10 +52,10 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         required: [true, "Doctor address is required"]
     },
-    date: {
-        type: Number,
-        required: [true, "Doctor date is required"]
-    },
+    // date: {
+    //     type: Number,
+    //     required: [true, "Doctor date is required"]
+    // },
     slots_bookes: {
         type: Object,
         default: {}
@@ -71,6 +73,6 @@ doctorSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, 12);
 });
 
-const Doctor = mongoose.model("Doctor", doctorSchema);
+const Doctor = mongoose.models.Doctor || mongoose.model("Doctor", doctorSchema);
 
 module.exports = Doctor;
