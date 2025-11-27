@@ -1,0 +1,19 @@
+# expresss configuration :
+
+PORT=8080
+
+# connect to db : 
+
+MONGO_URI=mongodb+srv://choraichianass_db_user:M9a2TezbvMEYFagQ@cluster0.dvgrf8h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+NODE_ENV=development
+
+# Admin Login : 
+
+ADMIN_EMAIL=choraichianass@gmail.com
+ADMIN_PASSWORD=12345678
+
+# JWT :
+
+JWT_SECRET_KEY=OyGg7clKTBanTZOIiZuKl
+JWT_EXPIRE_TIME=100d
