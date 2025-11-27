@@ -8,7 +8,7 @@ exports.login_validator = [
         .isEmail()
         .withMessage("Invalid email format")
     ,
-    check("password").notEmpty().withMessage("passwors is required"),
+    check("password").notEmpty().withMessage("password is required"),
     check("passwordConfirm").notEmpty().withMessage("password confirmation is required")
         .custom((passwordConfirm, { req }) => {
             if (!req.body.password || !passwordConfirm) return true;

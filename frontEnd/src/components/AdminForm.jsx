@@ -14,10 +14,6 @@ const AdminForm = () => {
         password: ""
     });
 
-    // const handleSubmitForm = () => {
-    //     return false;
-    // }
-
     return <form className=' w-[30%] center-element-absolute rounded-[10px] p-10 shadow-[0_0_5px_5px_rgba(0,0,0,0.1)]'>
         <p className='font-bold text-[25px] mx-auto mb-5 text-center'>Admin Login</p>
         <div className='gap-3 flex-column'>
@@ -34,7 +30,6 @@ const AdminForm = () => {
                     placeholder='password' value={inputValues.password} className='input-style' id='password' type='password' name='password' required={true} />
             </div>
             <button
-                // onSubmit={() => handleSubmitForm()}
                 className='px-2 py-1 font-semibold text-white bg-blue-500 rounded-[8px]'
                 type='submit'>Login</button>
         </div>

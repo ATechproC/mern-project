@@ -3,6 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cors = require("cors");
 const handleErrorsMiddleware = require("./middlewares/handleErrosMiddleware");
 
 dotenv.config({ path: "config.env" })
@@ -15,6 +16,7 @@ if (process.env.NODE_ENV === "development") {
 // middlewares : 
 
 app.use(express.json());
+app.use(cors());
 
 // set up routes :
 

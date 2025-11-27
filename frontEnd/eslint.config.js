@@ -13,7 +13,6 @@ export default defineConfig([
     },
     rules: {
       "react/prop-types": "off",
-      "require" : "off"
     }
   }
 ]);

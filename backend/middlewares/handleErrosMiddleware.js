@@ -1,11 +1,11 @@
 const handleErrorsMiddleware = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || "error";
-    if(process.env.NODE_ENV === "development") sendErroForDev(res, err);
-    else sendErroForProd(res, err)
+    if(process.env.NODE_ENV === "development") sendErrorForDev(res, err);
+    else sendErrorForProd(res, err)
 }
 
-const sendErroForDev = (res, err) => {
+const sendErrorForDev = (res, err) => {
     res.status(err.statusCode).json({
         status: err.status,
         error: err,
@@ -14,10 +14,10 @@ const sendErroForDev = (res, err) => {
     })
 }
 
-const sendErroForProd = (res, err) => {
+const sendErrorForProd = (res, err) => {
     res.status(err.statusCode).json({
         status: err.status,
-        message: err.message,
+        msg: err.message,
     })
 }
 

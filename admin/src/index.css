@@ -4,49 +4,17 @@
 
 @layer base {
     * {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
         font-family: sans-serif;
     }
 
     body {
-        background-color: #fff;
         height: 100vh;
     }
 }
 
-@layer components {
-
-    .open {
-        animation: animation-in 2s ease forwards;
-    }
-
-    .close {
-        animation: animation-out 2s ease forwards;
-    }
-
-    @keyframes animation-in {
-        0% {
-            right: 100%;
-        }
-
-        100% {
-            right: 0;
-        }
-    }
-
-    @keyframes animation-out {
-        0% {
-            right: 100%;
-        }
-
-        100% {
-            right: 0;
-        }
-    }
-
-}
 
 @layer utilities {
     .flex-center {

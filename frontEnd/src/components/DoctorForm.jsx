@@ -15,11 +15,6 @@ const AdminForm = () => {
         password: ""
     })
 
-    // const handleSubmitForm = () => {
-    //     return false;
-    // }
-
-    // return <Form title="Doctor Login" handleClick={handleClick} />
     return <form className=' w-[30%] center-element-absolute rounded-[10px] p-10 shadow-[0_0_5px_5px_rgba(0,0,0,0.1)]'>
         <p className='font-bold text-[25px] mx-auto mb-5 text-center'>Doctor Login</p>
         <div className='gap-3 flex-column'>
