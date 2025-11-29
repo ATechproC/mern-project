@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 8080;
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
-const handleErrorsMiddleware = require("./middlewares/handleErrosMiddleware");
+const handleErrorsMiddleware = require("./middlewares/errorHandlingMiddleware");
 
 dotenv.config({ path: "config.env" })
 
@@ -21,8 +21,8 @@ app.use(cors());
 // set up routes :
 
     //  Doctor Routes : 
-    const doctorRoutes = require("./api/doctorRoutes");
-    app.use("/api/v1/doctors", doctorRoutes);
+    // const doctorRoutes = require("./api/doctorRoutes");
+    // app.use("/api/v1/doctors", doctorRoutes);
     
     // User Routes : 
     const userRoutes = require("./api/userRoutes");

@@ -8,12 +8,12 @@ const AdminSideBar = () => {
             {
                 "id": 1,
                 "name": "Dashboard",
-                "link": "/dashboard"
+                "link": "/admin-dashboard"
             },
             {
                 "id": 2,
                 "name": "Appointments",
-                "link": "/appointments"
+                "link": "/all-appointments"
             },
             {
                 "id": 3,
@@ -27,11 +27,11 @@ const AdminSideBar = () => {
             },
         ]
 
-    return <nav className='flex-column gap-3 bg-secondary-color fixed w-[15%] h-full left-0 bottm-0 right-0 p-3 border-[1px] border-gray-400'>
+    return <nav className='flex-column gap-3 bg-secondary-color fixed w-[15%] h-[90%] left-0 bottom-0 right-0 p-3 border-[1px] border-gray-400'>
         {
             links.map(({ id, name, link }) => {
                 return <div key={id}
-                    className='flex-items gap-3 px-5'
+                    className='gap-3 px-5 flex-items'
                 >
                     <FaHome id={id} />
                     {/* <GetIcon id={id} /> */}

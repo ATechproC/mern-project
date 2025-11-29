@@ -1,3 +1,4 @@
+ 
 import React from 'react'
 // import GetIcon from '../../utils/GetIcon';
 // import assets from "../../assets/assets_frontend/assets";
@@ -6,9 +7,9 @@ import { FaCalendarAlt, FaHome } from 'react-icons/fa';
 import { MdOutlineAddBox } from 'react-icons/md';
 import { HiUserGroup } from "react-icons/hi2";
 import { FaUserDoctor } from "react-icons/fa6";
-import { assets } from '../../assets/assets_frontend/assets';
+import { assets } from '../../assets/assets_admin/assets';
 import { FaTimes } from "react-icons/fa";
-// import AdminSideBar from '../../utils/AdminSideBar';
+import AdminSideBar from '../../components/AdminSideBar';
 
 const GetIcon = ({ id }) => {
     switch (id) {
@@ -31,10 +32,10 @@ const Box = ({ icon, number, type }) => {
     </div>
 }
 
-const AdminPaned1 = () => {
+const AllAppointments = () => {
 
     return <div className=''>
-        {/* <AdminSideBar /> */}
+        <AdminSideBar />
         <div className='w-[85%] absolute right-0 p-4'>
             <div className='justify-center gap-5 flex-items'>
                 <Box number="14" type="Doctors" />
@@ -60,4 +61,4 @@ const AdminPaned1 = () => {
     </div>
 }
 
-export default AdminPaned1
+export default AllAppointments

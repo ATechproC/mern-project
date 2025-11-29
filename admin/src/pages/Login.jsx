@@ -24,7 +24,9 @@ const Login = () => {
                 setAToken(token);
             }
         } catch (err) {
-            const error = err.response.data.message || err.response.data.errors[0].msg;
+            let error;
+            if (err.response) error = err.response.data.message || err.response.data.errors[0].msg;
+            else error = err.message;
             toast.error(error);
         }
     }

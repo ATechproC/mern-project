@@ -14,7 +14,6 @@ import AdminForm from "./components/AdminForm";
 import DoctorForm from "./components/DoctorForm";
 import Appointment from "./pages/Appointment";
 import NotFound from "./components/NotFound";
-// import Doctor from "./components/Doctor";
 import MyProfile from "./components/MyProfile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -22,7 +21,6 @@ import Appointments from "./components/Appointments";
 import AdminPaned1 from "./pages/Admin/AdminPaned1";
 import AdminPanel2 from "./pages/Admin/AdminPanel2";
 import ChangeSpecialityProvider from "./providers/ChangeSpecialityProvider";
-// import ChangeSpecialityProvider from "./providers/ChangeSpecialityProvider";
 
 const App = () => {
 

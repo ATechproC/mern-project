@@ -84,13 +84,15 @@ exports.add_new_doctor_validator = [
     check("address")
         .notEmpty()
         .withMessage("Doctor address is required"),
-    check("date")
-        .notEmpty()
-        .withMessage("Doctor date is required"),
+    // check("date")
+    //     .notEmpty()
+    //     .withMessage("Doctor date is required"),
     check("address")
         .notEmpty()
         .withMessage("Doctor address is required"),
     check("image")
+        .notEmpty()
+        .withMessage("image URL is required")
         .isURL().withMessage("Invalid image URL")
 
 

@@ -8,7 +8,7 @@ const { pagination } = require("../utils/pagination");
 exports.add_new_doctor = async_handler(async (req, res) => {
 
     req.body.slug = slugify(req.body.name);
-    const newDoctor = new Doctor(req.body)
+    const newDoctor = new Doctor(req.body);
     await newDoctor.save();
 
     res.status(201).json({ data: newDoctor });

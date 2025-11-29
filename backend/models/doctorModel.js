@@ -22,7 +22,8 @@ const doctorSchema = new mongoose.Schema({
         maxlength: [32, "Too long password"]
     },
     image: {
-        type : String
+        type : String,
+        require : [true, "Doctor image is required"]
     },
     speciality: {
         type: String,
@@ -45,7 +46,7 @@ const doctorSchema = new mongoose.Schema({
         default: true
     },
     fees: {
-        type: String,
+        type: Number,
         required: [true, "Doctor fees is required"]
     },
     address: {
