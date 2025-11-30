@@ -1,9 +1,8 @@
 import React from 'react'
+import AllDoctors from "../../components/AllDoctors"
 
 const DoctorList = () => {
-    return (
-        <div>DoctorList</div>
-    )
+    return <AllDoctors />
 }
 
 export default DoctorList

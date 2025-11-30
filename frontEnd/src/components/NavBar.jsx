@@ -3,8 +3,11 @@ import { assets } from '../assets/assets_frontend/assets';
 import { Link } from 'react-router';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router';
+import { useApp } from '../providers/AppProvider';
 
 const NavBar = () => {
+
+    const { token } = useApp();
 
     const navigate = useNavigate();
 
@@ -81,36 +84,42 @@ const NavBar = () => {
                 }}
                 className="border-gray-400 border-[1px] text-sm rounded-2xl py-[2px] px-[10px]">Admin panel</button>
         </ul>
-        <div className="h-full gap-3 pb-3 flex-items"
-            onMouseEnter={() => whileMouseHovered("enter")}
-            onMouseLeave={() => whileMouseHovered("leave")}
-        >
-            <div className="w-[45px] h-[45px] rounded-full overflow-hidden cursor-pointer">
-                <img
-                    className="w-full h-full"
-                    src={assets.upload_area}
-                    draggable={false}
-                />
+        {
+            token && <div className="h-full gap-3 pb-3 flex-items"
+                onMouseEnter={() => whileMouseHovered("enter")}
+                onMouseLeave={() => whileMouseHovered("leave")}
+            >
+                <div className="w-[45px] h-[45px] rounded-full overflow-hidden cursor-pointer">
+                    <img
+                        className="w-full h-full"
+                        src={assets.upload_area}
+                        draggable={false}
+                    />
+                </div>
+                <IoIosArrowDown className="cursor-pointer" />
             </div>
-            <IoIosArrowDown className="cursor-pointer" />
-        </div>
-        {/* <button className='px-4 py-1 text-white bg-main-color rounded-[10px] font-semibold'>Create Account</button> */}
-        <div
-            style={{ display: isHovered ? "block" : "none" }}
-            onMouseEnter={() => whileMouseHovered("enter")}
-            onMouseLeave={() => whileMouseHovered("leave")}
-            className="absolute w-[200px] bg-[#f4f4f4] flex-column gap-3 top-14 right-0 p-3 rounded-[5px] hidden">
-            <p
-                onClick={() => {
-                    navigate('/my-profile')
-                }}
-                className="transition duration-300 cursor-pointer hover:text-blue-500">My Profile</p>
-            <p
-                onClick={() => {
-                    navigate('/appointments')
-                }}
-                className="transition duration-300 cursor-pointer hover:text-blue-500">My Appointments </p>
-        </div>
+        }
+        {
+            !token ? <button
+            onClick={() => navigate("/signup")}
+                className='px-4 py-1 text-white bg-main-color rounded-[10px] font-semibold'>Create Account</button>
+                : <div
+                    style={{ display: isHovered ? "block" : "none" }}
+                    onMouseEnter={() => whileMouseHovered("enter")}
+                    onMouseLeave={() => whileMouseHovered("leave")}
+                    className="absolute w-[200px] bg-[#f4f4f4] flex-column gap-3 top-14 right-0 p-3 rounded-[5px] hidden">
+                    <p
+                        onClick={() => {
+                            navigate('/my-profile')
+                        }}
+                        className="transition duration-300 cursor-pointer hover:text-blue-500">My Profile</p>
+                    <p
+                        onClick={() => {
+                            navigate('/appointments')
+                        }}
+                        className="transition duration-300 cursor-pointer hover:text-blue-500">My Appointments </p>
+                </div>
+        }
     </nav>
 }
 

@@ -25,9 +25,9 @@ const doctorSchema = new mongoose.Schema({
         type : String,
         require : [true, "Doctor image is required"]
     },
-    speciality: {
+    specialty: {
         type: String,
-        required: [true, "Doctor speciality is required"]
+        required: [true, "Doctor specialty is required"]
     },
     degree: {
         type: String,
@@ -57,7 +57,7 @@ const doctorSchema = new mongoose.Schema({
     //     type: Number,
     //     required: [true, "Doctor date is required"]
     // },
-    slots_bookes: {
+    slots_books: {
         type: Object,
         default: {}
     }

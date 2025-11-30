@@ -1,35 +1,72 @@
 import React, { useState } from 'react'
 import { assets } from "../assets/assets_admin/assets"
-import useAdmin from "../providers/AdminProvider"
+import { useAdmin } from '../providers/AdminProvider';
 import axios from "axios"
+import { toast } from "react-toastify"
 
 const AddDoctor = () => {
 
-    const { backendURL } = useAdmin();
+    const { backendURL, aToken } = useAdmin();
 
     const [inputValues, setInputValues] = useState({
+        image: false,
         name: "",
         password: "",
         passwordConfirm: "",
         email: "",
         fees: "",
-        experience: "",
-        specialty: "",
+        experience: "1 Year",
+        specialty: "General physician",
         address: "",
         about: "",
-        education: ""
+        degree: ""
     })
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await axios.post(backendURL + "/admin/add-doctor", inputValues, {
-                headers : {
 
+            if (!inputValues.image) return toast.error("Image not selected");
+
+            const formData = new FormData();
+            formData.append("image", inputValues.image)
+            formData.append("name", inputValues.name)
+            formData.append("email", inputValues.email)
+            formData.append("password", inputValues.password)
+            formData.append("passwordConfirm", inputValues.passwordConfirm)
+            formData.append("experience", inputValues.experience);
+            formData.append("specialty", inputValues.specialty);
+            formData.append("address", inputValues.address)
+            formData.append("about", inputValues.about)
+            formData.append("fees", Number(inputValues.fees));
+            formData.append("degree", inputValues.fees);
+
+            await axios.post(backendURL + "/admin/add-doctor", formData, {
+                headers: {
+                    Authorization: `Bearer ${aToken}`
                 }
             })
-        }catch(err) {
-            console.log(err);
+
+            toast.success("Doctor Added");
+            setInputValues({
+                image: false,
+                name: "",
+                password: "",
+                passwordConfirm: "",
+                email: "",
+                fees: "",
+                experience: "1 Year",
+                specialty: "General physician",
+                address: "",
+                about: "",
+                degree: ""
+            })
+
+        } catch (err) {
+            let error;
+            if (err.response) error = err.response.data.message || err.response.data.errors[0].msg;
+            else error = err.message;
+            toast.error(error);
         }
     }
 
@@ -37,9 +74,12 @@ const AddDoctor = () => {
         <p className='text-lg font-bold'>Add Doctor</p>
         <div className='p-5 w-[80%] mx-auto'>
             <div className='gap-3 mb-3 flex-items'>
-                <div className='max-w-[100px] max-h-[100px] rounded-full cursor-pointer'>
-                    <img src={assets.upload_area} draggable={false} />
-                </div>
+                <label htmlFor='doc-img'>
+                    <div className='max-w-[100px] max-h-[100px] rounded-full cursor-pointer overflow-hidden'>
+                        <img className='w-[100%) h-[100%]' src={inputValues.image ? URL.createObjectURL(inputValues.image) : assets.upload_area} draggable={false} />
+                    </div>
+                </label>
+                <input onChange={(e) => setInputValues(prev => ({ ...prev, image: e.target.files[0] }))} id="doc-img" type='file' hidden={true} />
                 <p className='font-medium text-gray-400'>Upload doctor picture</p>
             </div>
             <div className='grid grid-cols-2 gap-3'>
@@ -61,7 +101,7 @@ const AddDoctor = () => {
                 </div>
                 <div>
                     <label htmlFor='experience' className='block'>Experience</label>
-                    <select onChange={(e) => setInputValues(prev => ({ ...prev, experience: e.target.value }))} id='experience' className='w-1/2 px-2 py-1 border border-gray-500 rounded-[10px]'>
+                    <select value={inputValues.experience} onChange={(e) => setInputValues(prev => ({ ...prev, experience: e.target.value }))} id='experience' className='w-1/2 px-2 py-1 border border-gray-500 rounded-[10px]'>
                         <option value="1 Year" selected>1 Year</option>
                         <option value="2 Year">2 Year</option>
                         <option value="3 Year">3 Year</option>
@@ -80,7 +120,7 @@ const AddDoctor = () => {
                 </div>
                 <div>
                     <label htmlFor='specialty' className='block'>Specialty</label>
-                    <select onChange={(e) => setInputValues(prev => ({ ...prev, specialty: e.target.value }))} id='specialty' className='w-1/2 px-2 py-1 border border-gray-500 rounded-[10px]'>
+                    <select value={inputValues.specialty} onChange={(e) => setInputValues(prev => ({ ...prev, specialty: e.target.value }))} id='specialty' className='w-1/2 px-2 py-1 border border-gray-500 rounded-[10px]'>
                         <option value="General physician" selected>General physician</option>
                         <option value="Gynecologist">Gynecologist</option>
                         <option value="Dermatologist">Dermatologist</option>
@@ -91,7 +131,7 @@ const AddDoctor = () => {
                 </div>
                 <div>
                     <label htmlFor='education' className='block'>Education</label>
-                    <input value={inputValues.education} onChange={(e) => setInputValues(prev => ({ ...prev, education: e.target.value }))} className='px-3 py-1 border rounded-[10px] outline-none border-gray-500' id='education' type='text' placeholder='Education' required={true} />
+                    <input value={inputValues.degree} onChange={(e) => setInputValues(prev => ({ ...prev, degree: e.target.value }))} className='px-3 py-1 border rounded-[10px] outline-none border-gray-500' id='education' type='text' placeholder='Education' required={true} />
                 </div>
                 <div>
                     <label htmlFor='address' className='block'>Address</label>

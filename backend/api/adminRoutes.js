@@ -14,18 +14,13 @@ const router = express.Router();
 
 const {
     add_new_doctor,
-    // get_all_doctors,
-    // get_doctor_by_id,
-    // update_doctor_data,
-    // delete_doctor_data,
-    // change_doctor_password
+    get_all_doctors,
+    change_availability,
 } = require("../controllers/doctorController");
 
 const {
     add_new_doctor_validator,
-    // get_doctor_by_id_validator,
-    // update_doctor_data_validator,
-    // delete_doctor_data_validator
+    change_availability_validator,
 } = require("../utils/validators/doctorValidator");
 const { uploadImageMiddleware, uploadImage } = require("../controllers/uploadController");
 
@@ -38,6 +33,17 @@ router.post("/add-doctor",
     add_new_doctor_validator,
     add_new_doctor
 );
+
+router.post("/all-doctors",
+    protect,
+    get_all_doctors
+);
+
+router.put("/change-availability/:id",
+    protect,
+    change_availability_validator,
+    change_availability
+)
 
 // router.get("/", get_all_doctors);
 

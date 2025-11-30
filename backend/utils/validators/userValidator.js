@@ -141,17 +141,21 @@ exports.change_user_password_validator = [
         .withMessage("user is required")
         .isMongoId()
         .withMessage("Invalid Id format"),
-    check("newPassord").notEmpty().withMessage("new Password is required"),
+    check("newPassword").notEmpty().withMessage("new Password is required"),
     check("currentPassword")
         .notEmpty()
         .withMessage("current password is required")
         .bail()
         .custom(async (currentPassword, { req }) => {
 
-            if (!req.body.newPassword) return true;
+            if (!req.body.currentPassword) return true;
 
             const { id } = req.params;
             const user = await User.findById(id);
+
+            if (!user) {
+                throw new Error("there is no user for this id");
+            }
 
             const isCurrentPassword = await bcrypt.compare(currentPassword, user.password);
 
@@ -161,17 +165,23 @@ exports.change_user_password_validator = [
 
             return true;
 
-        }).custom(async (passwordConfirm, { req }) => {
+        })
+    ,
+    check("passwordConfirm")
+        .notEmpty()
+        .withMessage("password confirmation is required")
+        .custom(async (passwordConfirm, { req }) => {
 
             if (!req.body.newPassword) return true;
 
-            const isMatched = req.body.password === passwordConfirm;
+            const isMatched = req.body.newPassword === passwordConfirm;
 
             if (!isMatched) throw new Error("the password confirmation does not match!!");
 
             return true;
 
-        }),
+        })
+    ,
 
     validatorMiddleware
 ]

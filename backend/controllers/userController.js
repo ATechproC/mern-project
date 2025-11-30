@@ -4,6 +4,7 @@ const User = require("../models/userModel");
 const ApiError = require("../utils/ApiError");
 const bcrypt = require("bcryptjs");
 const { pagination } = require("../utils/pagination");
+const { createToken } = require("./userAuthController");
 
 exports.add_new_user = async_handler(async (req, res) => {
 
@@ -66,15 +67,18 @@ exports.change_user_password = async_handler(async (req, res, next) => {
 
     const { id } = req.params;
 
-    const user = await User.findOneAndUpdate(id, {
-        password: await bcrypt.hash(req.password, 12)
+    const user = await User.findByIdAndUpdate(id, {
+        password: await bcrypt.hash(req.body.newPassword, 12),
+        passwordChangedAt : Date.now()
     }, { new: true });
 
     if (!user) {
         return next(new ApiError("There is no user for this id", 404));
     }
 
-    res.status(200).json({ data: user });
+    const token = createToken({userId : user._id});
+
+    res.status(200).json({ data: user, token });
 
 })
 
@@ -89,4 +93,14 @@ exports.delete_user_data = async_handler(async (req, res, next) => {
     }
 
     res.status(200).json({ message: "user date deleted successfully", data: user })
+});
+
+exports.change_logged_user_password = async_handler(async (req, res, next) => {
+    req.params.id = req.user._id;
+    next();
+})
+
+exports.update_logged_user_data = async_handler(async (req, res, next) => {
+    req.params.id = req.user._id;
+    next();
 })

@@ -21,8 +21,8 @@ app.use(cors());
 // set up routes :
 
     //  Doctor Routes : 
-    // const doctorRoutes = require("./api/doctorRoutes");
-    // app.use("/api/v1/doctors", doctorRoutes);
+    const doctorRoutes = require("./api/doctorRoutes");
+    app.use("/api/v1/doctors", doctorRoutes);
     
     // User Routes : 
     const userRoutes = require("./api/userRoutes");
@@ -31,6 +31,10 @@ app.use(cors());
     // admin Routes :
     const adminRoutes = require("./api/adminRoutes");
     app.use("/api/v1/admin", adminRoutes);
+
+    // userAuthentication Routes :
+    const userAuthRoutes = require("./api/userAuthRoutes");
+    app.use("/api/v1/auth", userAuthRoutes);
     
     app.all(/.*/, (req, res, next) => {
         next(new ApiError(`Can't find this route : ${req.originalUrl}`, 404));

@@ -20,14 +20,29 @@ exports.get_all_doctors = async_handler(async (req, res) => {
     const page = req.query.page || 1;
     const skip = (page - 1) * limit;
 
-    const doctors = await Doctor.find().skip(skip).limit(limit);
+    const doctors = await Doctor.find().skip(skip).limit(limit).select("-password");
 
     const numberOfDocument = await Doctor.countDocuments();
 
-    const paginationResult = pagination( page, numberOfDocument, limit, skip);
+    const paginationResult = pagination(page, numberOfDocument, limit, skip);
 
-    res.status(200).json({ result : doctors.length, pagination: paginationResult, data: doctors });
+    res.status(200).json({ result: doctors.length, pagination: paginationResult, data: doctors });
 });
+
+exports.change_availability = async_handler(async (req, res, next) => {
+    const { id } = req.params;
+    const doctor = await Doctor.findById(id);
+
+    if (!doctor) {
+        return next(new ApiError("There is no doctor for this id", 404));
+    }
+
+    const newDoctor = await Doctor.findByIdAndUpdate(id, {
+        available: !doctor.available
+    }, { new: true });
+
+    res.status(200).json({ message: "Availability changed", data: newDoctor });
+})
 
 exports.get_doctor_by_id = async_handler(async (req, res, next) => {
     const { id } = req.params;

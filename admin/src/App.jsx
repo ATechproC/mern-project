@@ -20,15 +20,15 @@ const App = () => {
         <Route path='admin-dashboard' element={<AdminDashboard />} />
         <Route path='add-doctor' element={<AddDoctor />} />
         <Route path='all-appointments' element={<AllAppointments />} />
-        <Route path='doctor-list' element={<DoctorList />} />
+        <Route path='doctors-list' element={<DoctorList />} />
       </Route>
     )
   )
 
   return aToken
     ? <div>
-      <RouterProvider router={router} />
       <ToastContainer />
+      <RouterProvider router={router} />
     </div>
     : <>
       <Login />

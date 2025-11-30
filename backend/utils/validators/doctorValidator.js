@@ -10,7 +10,7 @@ exports.get_doctor_by_id_validator = [
         .withMessage("Doctor id is required")
         .bail()
         .isMongoId()
-        .withMessage("Invalid id foramt"),
+        .withMessage("Invalid id format"),
 
     validatorMiddleware
 ]
@@ -69,9 +69,9 @@ exports.add_new_doctor_validator = [
 
         }),
 
-    check("speciality")
+    check("specialty")
         .notEmpty()
-        .withMessage("Doctor speciality is required"),
+        .withMessage("Doctor specialty is required"),
     check("experience")
         .notEmpty()
         .withMessage("Doctor experience is required"),
@@ -149,6 +149,20 @@ exports.update_doctor_data_validator = [
     check("address")
         .notEmpty()
         .withMessage("Doctor address is required"),
+    check("available")
+        .isBoolean()
+        .withMessage("available value should be a boolean value")
+    ,
+
+    validatorMiddleware
+]
+
+exports.change_availability_validator = [
+    check("id")
+        .notEmpty()
+        .withMessage("Id is required")
+        .isMongoId()
+        .withMessage("Invalid id format"),
 
     validatorMiddleware
 ]
@@ -160,7 +174,7 @@ exports.delete_doctor_data_validator = [
         .withMessage("Doctor id is required")
         .bail()
         .isMongoId()
-        .withMessage("Invalid id foramt"),
+        .withMessage("Invalid id format"),
 
     validatorMiddleware
 ]
@@ -171,7 +185,7 @@ exports.change_doctor_password_validator = [
         .withMessage("Doctor is required")
         .isMongoId()
         .withMessage("Invalid Id format"),
-    check("newPassord").notEmpty().withMessage("new Password is required"),
+    check("newPassword").notEmpty().withMessage("new Password is required"),
     check("currentPassword")
         .notEmpty()
         .withMessage("current password is required")

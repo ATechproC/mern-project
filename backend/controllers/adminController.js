@@ -17,7 +17,6 @@ exports.login = async_handler(async (req, res, next) => {
     }
 
     const token = createToken(email + password);
-    // req.isActive = true;
 
     res.status(200).json({ token });
 })

@@ -16,11 +16,13 @@ import Appointment from "./pages/Appointment";
 import NotFound from "./components/NotFound";
 import MyProfile from "./components/MyProfile";
 import Signup from "./components/Signup";
-import Login from "./components/Login";
+// import Login from "./components/Login";
 import Appointments from "./components/Appointments";
-import AdminPaned1 from "./pages/Admin/AdminPaned1";
-import AdminPanel2 from "./pages/Admin/AdminPanel2";
+// import AdminPaned1 from "./pages/Admin/AdminPaned1";
+// import AdminPanel2 from "./pages/Admin/AdminPanel2";
 import ChangeSpecialityProvider from "./providers/ChangeSpecialityProvider";
+import AppProvider from "./providers/AppProvider";
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
 
@@ -36,14 +38,13 @@ const App = () => {
           <Route path="contact" element={<Contact />} />
           <Route path="appointments/:doctorId" element={<Appointment />} />
           <Route path="appointments" element={<Appointments />} />
-          <Route path="/admin1" element={<AdminPaned1 />} />
-          <Route path="/admin2" element={<AdminPanel2 />} />
+          {/* <Route path="/admin1" element={<AdminPaned1 />} /> */}
+          {/* <Route path="/admin2" element={<AdminPanel2 />} /> */}
+          <Route path="/signup" element={<Signup />} />
         </Route>
         <Route path="/admin-login" element={<AdminForm />} />
         <Route path="/doctor-login" element={<DoctorForm />} />
         <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/user-login" element={<Login />} />
-        <Route path="/user-signup" element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     )
@@ -51,9 +52,12 @@ const App = () => {
 
   return (
     <div className="w-[80%] m-auto mt-[10px] overflow-hidden">
-      <ChangeSpecialityProvider>
-        <RouterProvider router={router} />
-      </ChangeSpecialityProvider>
+      <AppProvider>
+        <ChangeSpecialityProvider>
+          <RouterProvider router={router} />
+          <ToastContainer />
+        </ChangeSpecialityProvider>
+      </AppProvider>
     </div>
   )
 }
